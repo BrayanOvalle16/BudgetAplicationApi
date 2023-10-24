@@ -1,11 +1,12 @@
-﻿namespace BudgetAplicationApi.Api.Models
+﻿using BudgetAplicationApi.Api.Models;
+
+namespace BudgetAplicationApi.Api.Dto
 {
-    public class Usuarios
+    public class UsuariosDto
     {
         public int ID { get; set; }
         public string Nombre { get; set; }
         public string CorreoElectronico { get; set; }
-        public string Contrasena { get; set; }
         public string NumeroIdentificacion { get; set; }
         public DateTime Fecha { get; set; } = DateTime.Now;
         public bool Estado { get; set; } = true;

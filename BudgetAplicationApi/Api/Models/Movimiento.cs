@@ -4,9 +4,9 @@
     {
         public int ID { get; set; }
         public int Monto { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
         public string Descripcion { get; set; }
-        public bool Estado { get; set; }
+        public bool Estado { get; set; } = true;
 
         // Propiedades de navegación para las relaciones Usuario, Compañia, Contabilidad y Transacción
         public Usuarios Usuario { get; set; }

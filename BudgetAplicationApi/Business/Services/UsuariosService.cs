@@ -17,23 +17,36 @@ namespace BudgetAplicationApi.Business.Services
 
         public async Task<IEnumerable<Usuarios>> GetAllUsuariosAsync()
         {
-            return await _dbContext.Usuarios.ToListAsync();
+            return await _dbContext.Usuarios
+                .Where(x => x.Estado)
+                .ToListAsync();
         }
 
         public async Task<Usuarios> GetUsuarioByIdAsync(int usuarioId)
         {
-            return await _dbContext.Usuarios.FindAsync(usuarioId);
+            return await _dbContext.Usuarios
+                .Where(x => x.Estado)
+                .Where(x => x.ID == usuarioId)
+                .FirstOrDefaultAsync();
         }
 
         public async Task CreateUsuarioAsync(Usuarios usuario)
         {
+            var rol = await _dbContext.Roles
+                .Where(x => x.Descripcion == Api.RolesEnum.Contador)
+                .FirstOrDefaultAsync();
+            usuario.Roles = new List<Rol>();
+            usuario.Roles.Add(rol);
             _dbContext.Usuarios.Add(usuario);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task UpdateUsuarioAsync(int usuarioId, Usuarios updatedUsuario)
         {
-            var existingUsuario = await _dbContext.Usuarios.FindAsync(usuarioId);
+            var existingUsuario = await _dbContext.Usuarios             
+                .Where(x => x.Estado)
+                .Where(x => x.ID == usuarioId)
+                .FirstOrDefaultAsync();
             if (existingUsuario == null)
             {
                 throw new NotFoundException("Usuario not found");
@@ -51,10 +64,12 @@ namespace BudgetAplicationApi.Business.Services
 
         public async Task DeleteUsuarioAsync(int usuarioId)
         {
-            var usuario = await _dbContext.Usuarios.FindAsync(usuarioId);
+            var usuario = await _dbContext.Usuarios.Where(x => x.Estado)
+                .Where(x => x.ID == usuarioId)
+                .FirstOrDefaultAsync();
             if (usuario != null)
             {
-                _dbContext.Usuarios.Remove(usuario);
+                usuario.Estado = false;
                 await _dbContext.SaveChangesAsync();
             }
         }
@@ -63,6 +78,7 @@ namespace BudgetAplicationApi.Business.Services
         {
             return await _dbContext.Usuarios
                     .Where(x => x.Nombre == userName)
+                    .Where(x => x.Estado)
                     .FirstOrDefaultAsync();
         }
     }
