@@ -64,6 +64,9 @@ builder.Services.AddScoped<IAuthFacade, AuthFacade>();
 builder.Services.AddScoped<IRolesService, RolService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUsuariosService, UsuariosService>();
+builder.Services.AddScoped<ICompaniaService, CompaniaService>();
+builder.Services.AddScoped<IContabilidadService, ContabilidadService>();
+builder.Services.AddScoped<ITransaccionService, TransaccionService>();
 
 var app = builder.Build();
 
