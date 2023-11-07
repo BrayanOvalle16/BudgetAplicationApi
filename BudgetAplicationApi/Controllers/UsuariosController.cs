@@ -4,20 +4,24 @@ using BudgetAplicationApi.Api.Exceptions;
 using BudgetAplicationApi.Api.Interfaces;
 using BudgetAplicationApi.Api.Models;
 using BudgetAplicationApi.Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetAplicationApi.Controllers
 {
     [Route("api/v1/usuarios")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class UsuariosController : ControllerBase
     {
         private readonly IUsuariosService _usuariosService;
         private readonly IMapper _mapper;
+        private readonly IAuthFacade _authFacade;
 
-        public UsuariosController(IUsuariosService usuariosService, IMapper mapper)
+        public UsuariosController(IUsuariosService usuariosService, IMapper mapper, IAuthFacade authFacade)
         {
             _mapper = mapper;
+            _authFacade = authFacade;
             _usuariosService = usuariosService;
         }
 
@@ -45,6 +49,7 @@ namespace BudgetAplicationApi.Controllers
         public async Task<IActionResult> CreateUsuario([FromBody] UsuariosCreate usuarioDto)
         {
             var usuario = _mapper.Map<Usuarios>(usuarioDto);
+            usuario.Contrasena = await _authFacade.Hash(usuario.Contrasena);
             await _usuariosService.CreateUsuarioAsync(usuario);
             return CreatedAtAction("GetUsuarioById", new { id = usuario.ID }, usuarioDto);
         }

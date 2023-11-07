@@ -3,12 +3,14 @@ using BudgetAplicationApi.Api.Dto;
 using BudgetAplicationApi.Api.Interfaces;
 using BudgetAplicationApi.Api.Models;
 using BudgetAplicationApi.Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetAplicationApi.Controllers
 {
     [ApiController]
     [Route("api/v1/companias")]
+    [Authorize(Roles = "Admin")]
     public class CompaniaController : ControllerBase
     {
         private readonly ICompaniaService _companiaService;

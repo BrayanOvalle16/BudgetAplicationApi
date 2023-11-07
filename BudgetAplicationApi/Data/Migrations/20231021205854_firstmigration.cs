@@ -217,8 +217,8 @@ namespace BudgetAplicationApi.Data.Migrations
             migrationBuilder.InsertData("Roles",
                 columns: new[] { nameof(Rol.Descripcion), nameof(Rol.Fecha), nameof(Rol.Estado) },
                 values: new object[,] {
-                   { (int)RolesEnum.Contador, DateTime.UtcNow, true},
-                   { (int)RolesEnum.Admin, DateTime.UtcNow, true}
+                   { (int)RolesEnum.Admin, DateTime.UtcNow, true},
+                   { (int)RolesEnum.Contador, DateTime.UtcNow, true}
                     }
                 );
 
