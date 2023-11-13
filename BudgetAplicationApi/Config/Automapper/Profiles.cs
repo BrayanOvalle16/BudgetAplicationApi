@@ -44,6 +44,11 @@ namespace BudgetAplicationApi.Config.Automapper
             CreateMap<MovimientoUpdateDto, Movimiento>();
             CreateMap<Movimiento, MovimientoCreateDto>();
             CreateMap<MovimientoCreateDto, Movimiento>();
+
+            CreateMap<RolDto, Rol>();
+            CreateMap<Rol, RolDto>();
+
+            
         }
     }
 }

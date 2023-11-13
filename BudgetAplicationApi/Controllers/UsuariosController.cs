@@ -17,7 +17,10 @@ namespace BudgetAplicationApi.Controllers
         private readonly IUsuariosService _usuariosService;
         private readonly IMapper _mapper;
         private readonly IAuthFacade _authFacade;
-
+        private readonly string regex = "^(?=.*[0-9])"
+                       + "(?=.*[a-z])(?=.*[A-Z])"
+                       + "(?=.*[@#$%^&+=])"
+                       + "(?=\\S+$).{8,20}$";
         public UsuariosController(IUsuariosService usuariosService, IMapper mapper, IAuthFacade authFacade)
         {
             _mapper = mapper;
@@ -51,7 +54,8 @@ namespace BudgetAplicationApi.Controllers
             var usuario = _mapper.Map<Usuarios>(usuarioDto);
             usuario.Contrasena = await _authFacade.Hash(usuario.Contrasena);
             await _usuariosService.CreateUsuarioAsync(usuario);
-            return CreatedAtAction("GetUsuarioById", new { id = usuario.ID }, usuarioDto);
+            var usuarioDtos = _mapper.Map<UsuariosDto>(usuario);
+            return CreatedAtAction("GetUsuarioById", new { id = usuario.ID }, usuarioDtos);
         }
 
         [HttpPut("{id}")]

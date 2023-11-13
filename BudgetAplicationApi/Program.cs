@@ -59,6 +59,10 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
 
 builder.Services.AddScoped<IAuthFacade, AuthFacade>();
 builder.Services.AddScoped<IRolesService, RolService>();
@@ -77,7 +81,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("corsapp");
 
 app.UseAuthentication();
 

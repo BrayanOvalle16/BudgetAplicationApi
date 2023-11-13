@@ -11,9 +11,9 @@ namespace BudgetAplicationApi.Api.Dto
         public DateTime Fecha { get; set; } = DateTime.Now;
         public bool Estado { get; set; } = true;
 
-        public ICollection<Rol> Roles { get; set; }
+        public ICollection<RolDto> Roles { get; set; }
 
         // Propiedad de navegación para la relación Movimiento
-        public ICollection<Movimiento> Movimientos { get; set; }
+        public ICollection<MovimientoDto> Movimientos { get; set; }
     }
 }
